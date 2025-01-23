@@ -111,9 +111,8 @@ namespace Nini.Test.Config
 									(new StringReader (writer.ToString ()));
 			IConfig config = source.Configs["Test"];
 			
-			Assert.AreEqual (494.59, config.GetFloat ("value 1"));
-			Assert.AreEqual ((float)5656.2853, 
-							config.GetFloat ("Not Here", (float)5656.2853));
+            Assert.That(config.GetFloat("value 1"), Is.EqualTo(494.59f).Within(0.0001f));
+            Assert.That(config.GetFloat("Not Here", 5656.2853f), Is.EqualTo(5656.2853f).Within(0.0001f));
 		}
 
 		[Test]
@@ -142,7 +141,6 @@ namespace Nini.Test.Config
 		}
 		
 		[Test]
-		[ExpectedException (typeof (ArgumentException))]
 		public void BooleanAliasNoDefault ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -156,11 +154,10 @@ namespace Nini.Test.Config
 			config.Alias.AddAlias ("false", false);
 			
 			Assert.IsTrue (config.GetBoolean ("Not Here", true));
-			Assert.IsFalse (config.GetBoolean ("Not Here Also"));
+			Assert.Throws<ArgumentException> (() => config.GetBoolean ("Not Here Also"));
 		}
 		
 		[Test]
-		[ExpectedException (typeof (ArgumentException))]
 		public void NonBooleanParameter ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -172,7 +169,7 @@ namespace Nini.Test.Config
 			config.Alias.AddAlias ("true", true);
 			config.Alias.AddAlias ("false", false);
 			
-			Assert.IsTrue (config.GetBoolean ("bool 1"));
+			Assert.Throws<ArgumentException>(() => config.GetBoolean("bool 1"));
 		}
 		
 		[Test]

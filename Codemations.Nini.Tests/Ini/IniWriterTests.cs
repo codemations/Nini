@@ -111,13 +111,12 @@ namespace Nini.Test.Ini
 		}
 		
 		[Test]
-		[ExpectedException (typeof (InvalidOperationException))]
 		public void NotOrderedWriteState ()
 		{
 			StringWriter writer = new StringWriter ();
 			IniWriter iniWriter = new IniWriter (writer);
 			
-			iniWriter.WriteKey ("state", "Out of order");
+			Assert.Throws<InvalidOperationException>(() => iniWriter.WriteKey ("state", "Out of order"));
 		}
 		
 		[Test]

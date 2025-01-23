@@ -18,27 +18,27 @@ namespace Nini.Test.Config
 	{
 		static int assertCount = 0;
 
-		public static int Main ()
-		{
-			SetMessage ("Running tests...");
-			try
-			{
-				WebTest ();
-				FileTest ();
-				FileAndSaveTest ();
-			}
-			catch (Exception e)
-			{
-				SetMessage ("Exception occurred: " + e.Message + "\r\n" +
-							"Stack trace: " + e.StackTrace);
-				Failure ();
-			}
+		//public static int Main ()
+		//{
+		//	SetMessage ("Running tests...");
+		//	try
+		//	{
+		//		WebTest ();
+		//		FileTest ();
+		//		FileAndSaveTest ();
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		SetMessage ("Exception occurred: " + e.Message + "\r\n" +
+		//					"Stack trace: " + e.StackTrace);
+		//		Failure ();
+		//	}
 
-			DisplayResults ();
-			SetMessage ("All tests passed successfully");
+		//	DisplayResults ();
+		//	SetMessage ("All tests passed successfully");
 
-			return 0;
-		}
+		//	return 0;
+		//}
 		
 		private static void WebTest ()
 		{

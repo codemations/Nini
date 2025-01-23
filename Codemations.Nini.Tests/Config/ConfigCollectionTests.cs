@@ -48,13 +48,12 @@ namespace Nini.Test.Config
 		}
 		
 		[Test]
-		[ExpectedException (typeof (ArgumentException))]
 		public void AlreadyExistsException ()
 		{
 			ConfigBase config = new ConfigBase ("Test", null);
 			ConfigCollection collection = new ConfigCollection (null);
 			collection.Add (config);
-			collection.Add (config); // exception
+			Assert.Throws<ArgumentException>(() => collection.Add (config));
 		}
 		
 		[Test]

@@ -65,8 +65,8 @@ namespace Nini.Test.Config
 			Assert.AreEqual ("Jane", config.Get ("woman"));
 			Assert.AreEqual ("John", config.Get ("man"));
 		}
-		
-		[ExpectedException (typeof (ArgumentException))]
+
+		[Test]
 		public void MergeItself ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -75,11 +75,11 @@ namespace Nini.Test.Config
 			writer.WriteLine (" man = John");
 			IniConfigSource iniSource = 
 					new IniConfigSource (new StringReader (writer.ToString ()));
-			
-			iniSource.Merge (iniSource); // exception
+
+			Assert.Throws<ArgumentException>(() => iniSource.Merge(iniSource));
 		}
-		
-		[ExpectedException (typeof (ArgumentException))]
+
+		[Test]
 		public void MergeExisting ()
 		{
 			StringWriter textWriter = new StringWriter ();
@@ -87,8 +87,8 @@ namespace Nini.Test.Config
 			WriteSection (xmlWriter, "Pets");
 			WriteKey (xmlWriter, "cat", "muffy");
 			xmlWriter.WriteEndDocument ();
-			
-			StringReader reader = new StringReader (xmlWriter.ToString ());
+
+            StringReader reader = new StringReader (textWriter.ToString());
 			XmlTextReader xmlReader = new XmlTextReader (reader);
 			XmlConfigSource xmlSource = new XmlConfigSource (xmlReader);
 			
@@ -99,8 +99,8 @@ namespace Nini.Test.Config
 					new IniConfigSource (new StringReader (writer.ToString ()));
 			
 			xmlSource.Merge (iniSource);
-			xmlSource.Merge (iniSource); // exception
-		}
+            Assert.Throws<ArgumentException>(() => iniSource.Merge(iniSource));
+        }
 		
 		[Test]
 		public void AutoSave ()

@@ -76,13 +76,12 @@ namespace Nini.Test.Ini
 		}
 
 		[Test]
-		[ExpectedException (typeof (IniException))]
 		public void ParserError ()
 		{
 			StringWriter writer = new StringWriter ();
 			writer.WriteLine ("[Nini Thing");
 			writer.WriteLine (" my key = something");
-			IniDocument doc = new IniDocument (new StringReader (writer.ToString ()));
+			Assert.Throws<IniException>(() => new IniDocument(new StringReader(writer.ToString())));
 		}
 
 		[Test]
@@ -359,7 +358,6 @@ namespace Nini.Test.Ini
 		}
 
 		[Test]
-		[ExpectedException (typeof (IniException))]
 		public void SambaLoadAsStandard ()
 		{
 			string filePath = "Save.ini";
@@ -377,7 +375,7 @@ namespace Nini.Test.Ini
 
 			IniDocument iniDoc = new IniDocument ();
 			iniDoc.FileType = IniFileType.Standard;
-			iniDoc.Load (filePath);
+			Assert.Throws<IniException>(() => iniDoc.Load (filePath));
 
 			File.Delete (filePath);
 		}

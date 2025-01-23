@@ -48,14 +48,13 @@ namespace Nini.Test.Config
 		}
 		
 		[Test]
-		[ExpectedException (typeof (ArgumentException))]
 		public void NonExistantBooleanText ()
 		{
 			AliasText alias = new AliasText ();
 			alias.AddAlias ("true", true);
 			alias.AddAlias ("faLSe", false);
 			
-			Assert.IsTrue (alias.GetBoolean ("Not present"));
+			Assert.Throws<ArgumentException>(() => alias.GetBoolean("Not present"));
 		}
 		
 		[Test]
@@ -76,23 +75,21 @@ namespace Nini.Test.Config
 		}
 		
 		[Test]
-		[ExpectedException (typeof (ArgumentException))]
 		public void GetIntNonExistantText ()
 		{
 			AliasText alias = new AliasText ();
 			alias.AddAlias ("error code", "WaRn", 100);
 			
-			Assert.AreEqual (100, alias.GetInt ("error code", "not here"));
+			Assert.Throws<ArgumentException>(() => alias.GetInt("error code", "not here"));
 		}
 		
 		[Test]
-		[ExpectedException (typeof (ArgumentException))]
 		public void GetIntNonExistantKey ()
 		{
 			AliasText alias = new AliasText ();
 			alias.AddAlias ("error code", "WaRn", 100);
 			
-			Assert.AreEqual (100, alias.GetInt ("not exist", "warn"));
+			Assert.Throws< ArgumentException>(() => alias.GetInt ("not exist", "warn"));
 		}
 		
 		[Test]

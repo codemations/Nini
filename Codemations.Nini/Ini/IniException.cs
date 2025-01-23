@@ -9,20 +9,15 @@
 #endregion
 
 using System;
-using System.Security;
 using System.Globalization;
 using System.Security.Permissions;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 
 namespace Nini.Ini
 {
 	/// <include file='IniException.xml' path='//Class[@name="IniException"]/docs/*' />
-#if (NET_COMPACT_1_0)
-#else
 	[Serializable]
-#endif
 	public class IniException : SystemException /*, ISerializable */
 	{
 		#region Private variables
@@ -96,24 +91,6 @@ namespace Nini.Ini
 		protected IniException (SerializationInfo info, StreamingContext context)
 			: base (info, context)
 		{
-		}
-#endif
-		#endregion
-		
-		#region Public methods
-#if (NET_COMPACT_1_0)
-#else
-		/// <include file='IniException.xml' path='//Method[@name="GetObjectData"]/docs/*' />
-		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
-		public override void GetObjectData (SerializationInfo info, 
-											StreamingContext context)
-		{
-			base.GetObjectData (info, context);
-			if (iniReader != null) {
-				info.AddValue ("lineNumber", iniReader.LineNumber);
-
-				info.AddValue ("linePosition", iniReader.LinePosition);
-			}
 		}
 #endif
 		#endregion

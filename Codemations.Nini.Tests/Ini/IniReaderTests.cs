@@ -99,7 +99,6 @@ namespace Nini.Test.Ini
 		}
 		
 		[Test]
-		[ExpectedException (typeof (IniException))]
 		public void SectionWithNoEndBracket ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -107,11 +106,10 @@ namespace Nini.Test.Ini
 			writer.WriteLine ("");
 			IniReader reader = new IniReader (new StringReader (writer.ToString ()));
 
-			Assert.IsTrue (reader.Read ());
+			Assert.Throws<IniException>(() => reader.Read());
 		}
 		
 		[Test]
-		//[ExpectedException (typeof (IniException))]
 		public void LinePositionAndNumber ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -122,16 +120,9 @@ namespace Nini.Test.Ini
 			
 			Assert.IsTrue (reader.Read ());
 			Assert.IsTrue (reader.Read ());
-			
-			try
-			{
-				reader.Read ();
-			}
-			catch(IniException e)
-			{
-				Assert.AreEqual (3, e.LineNumber);
-				Assert.AreEqual (13, e.LinePosition);
-			}
+            var e = Assert.Throws<IniException>(() => reader.Read());
+			Assert.AreEqual (3, e.LineNumber);
+			Assert.AreEqual (13, e.LinePosition);
 		}
 		
 		[Test]
@@ -190,7 +181,6 @@ namespace Nini.Test.Ini
 		}
 		
 		[Test]
-		[ExpectedException (typeof (IniException))]
 		public void NoEndingQuote ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -199,11 +189,10 @@ namespace Nini.Test.Ini
 			IniReader reader = new IniReader (new StringReader (writer.ToString ()));
 			
 			Assert.IsTrue (reader.Read ());
-			Assert.IsTrue (reader.Read ());
-		}
+            Assert.Throws<IniException>(() => reader.Read());
+        }
 		
 		[Test]
-		[ExpectedException (typeof (IniException))]
 		public void KeyWithNoEquals ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -212,7 +201,7 @@ namespace Nini.Test.Ini
 			IniReader reader = new IniReader (new StringReader (writer.ToString ()));
 			
 			Assert.IsTrue (reader.Read ());
-			Assert.IsTrue (reader.Read ());
+			Assert.Throws<IniException>(() => reader.Read ());
 		}
 		
 		[Test]
@@ -373,7 +362,6 @@ namespace Nini.Test.Ini
 		}
 		
 		[Test]
-		[ExpectedException (typeof (IniException))]
 		public void NoLineContinuation ()
 		{
 			StringWriter writer = new StringWriter ();
@@ -386,8 +374,8 @@ namespace Nini.Test.Ini
 			
 			Assert.IsTrue (reader.Read ());
 			Assert.IsTrue (reader.Read ());
-			Assert.IsTrue (reader.Read ());
-		}
+            Assert.Throws<IniException>(() => reader.Read());
+        }
 		
 		[Test]
 		public void LineContinuation ()
